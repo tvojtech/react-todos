@@ -25,7 +25,7 @@ export default class Todos extends React.Component {
 
     render() {
         return (
-            <div isOpen={this.state.isOpen}>
+            <div>
                 <Add onTodoAdd={this.onTodoAdd}/>
                 <List todos={this.state.todos}/>
                 <Filters onFilterSelect={this.onFilterSelect}/>
