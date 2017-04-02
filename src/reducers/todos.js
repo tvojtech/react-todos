@@ -14,6 +14,6 @@ export default (state = [], action) => {
 
 const getTodos = state => state
 
-export const todosSelectors = {
+export const selectors = {
   getTodos
 }
