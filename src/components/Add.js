@@ -1,29 +1,19 @@
 import React from 'react'
+import * as actions from '../actions'
+import {connect} from 'react-redux'
 
-export default class Add extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            value: ''
-        }
-    }
-
-    handleChange = (event) => {
-        this.setState({value: event.target.value})
-    }
-
-    handleSubmit = () => {
-        this.props.onTodoAdd(this.state.value)
-        this.setState({value: ''})
-    }
-
-    render() {
-        return (
-            <div>
-                <input type="text" value={this.state.value}
-                       onChange={this.handleChange}/>
-                <button onClick={this.handleSubmit}>Submit</button>
-            </div>
-        )
-    }
+const Add = ({addTodo}) => {
+  let input;
+  return (
+    <form onSubmit={evt => {
+      evt.preventDefault()
+      addTodo(input.value)
+      input.value = ''
+    }}>
+      <input type="text" ref={node => input = node}/>
+      <button type="submit">Submit</button>
+    </form>
+  )
 }
+
+export default connect(null, actions)(Add)
