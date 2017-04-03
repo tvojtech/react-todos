@@ -2,34 +2,21 @@ import React from 'react'
 import List from './List'
 import Add from './Add'
 import Filters from './Filters'
+import * as actions from '../actions'
+import store from '../store'
 
 export default class Todos extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            todos: [
-                "todo 1",
-                "todo 2"
-            ],
-            filter: 'open'
-        }
-    }
+  componentWillMount() {
+    store.dispatch(actions.fetchTodos())
+  }
 
-    onTodoAdd = todo => {
-        this.setState({todos: [...this.state.todos, todo]})
-    }
-
-    onFilterSelect = filter => {
-        this.setState({filter})
-    }
-
-    render() {
-        return (
-            <div>
-                <Add onTodoAdd={this.onTodoAdd}/>
-                <List todos={this.state.todos}/>
-                <Filters onFilterSelect={this.onFilterSelect}/>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <Add />
+        <Filters />
+        <List />
+      </div>
+    )
+  }
 }

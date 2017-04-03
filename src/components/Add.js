@@ -1,29 +1,24 @@
 import React from 'react'
+import * as actions from '../actions'
+import {connect} from 'react-redux'
+import {selectors} from '../reducers'
 
-export default class Add extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            value: ''
-        }
-    }
-
-    handleChange = (event) => {
-        this.setState({value: event.target.value})
-    }
-
-    handleSubmit = () => {
-        this.props.onTodoAdd(this.state.value)
-        this.setState({value: ''})
-    }
-
-    render() {
-        return (
-            <div>
-                <input type="text" value={this.state.value}
-                       onChange={this.handleChange}/>
-                <button onClick={this.handleSubmit}>Submit</button>
-            </div>
-        )
-    }
+const Add = ({addTodo, isFetchingTodos}) => {
+  let input;
+  return (
+    <form onSubmit={evt => {
+      evt.preventDefault()
+      addTodo(input.value)
+      input.value = ''
+    }}>
+      <input type="text" ref={node => input = node}/>
+      <button type="submit" disabled={isFetchingTodos}>Submit</button>
+    </form>
+  )
 }
+
+const mapStateToProps = state => ({
+  isFetchingTodos: selectors.isFetchingTodos(state)
+})
+
+export default connect(mapStateToProps, actions)(Add)
