@@ -1,8 +1,9 @@
 import React from 'react'
 import * as actions from '../actions'
 import {connect} from 'react-redux'
+import {selectors} from '../reducers'
 
-const Add = ({addTodo}) => {
+const Add = ({addTodo, isFetchingTodos}) => {
   let input;
   return (
     <form onSubmit={evt => {
@@ -11,9 +12,13 @@ const Add = ({addTodo}) => {
       input.value = ''
     }}>
       <input type="text" ref={node => input = node}/>
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={isFetchingTodos}>Submit</button>
     </form>
   )
 }
 
-export default connect(null, actions)(Add)
+const mapStateToProps = state => ({
+  isFetchingTodos: selectors.isFetchingTodos(state)
+})
+
+export default connect(mapStateToProps, actions)(Add)

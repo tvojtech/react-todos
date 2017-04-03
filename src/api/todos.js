@@ -1,7 +1,7 @@
 import {v4} from 'uuid'
 import Promise from 'bluebird'
 
-const delay = () => new Promise(resolve => setTimeout(resolve, 3000))
+const delay = () => new Promise((resolve, reject) => setTimeout((Math.round(Math.random() * 100) % 5) === 0 ? reject : resolve, 3000))
 
 let todos = JSON.parse(window.localStorage.getItem('aaaaaaa_todos') || '[]')
 
@@ -17,7 +17,7 @@ const get = id => delay().then(() => todos.find(t => t.id === id))
 const save = todo => {
   let clone = {...todo, id: todo.id || v4()}
   const idx = todos.findIndex(t => t.id === clone.id)
-  delay().then(() => {
+  return delay().then(() => {
     if (idx >= 0) {
       newTodos([...todos.slice(0, idx), clone, ...todos.slice(idx + 1)])
     } else {
@@ -28,7 +28,7 @@ const save = todo => {
 
 const remove = idOrTodo => {
   const id = idOrTodo.id || idOrTodo
-  delay().then(() => newTodos(todos.filter(t => t.id !== id)))
+  return delay().then(() => newTodos(todos.filter(t => t.id !== id)))
 }
 
 export default {

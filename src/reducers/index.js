@@ -18,10 +18,14 @@ const getTodos = state => {
   }
   return todos
 }
+const isFetchingTodos = state => todosSelectors.isFetchingTodos(state.todos)
+const isFetchErrorTodos = state => todosSelectors.isFetchErrorTodos(state.todos)
 
 const getSelectedFilter = state => filtersSelectors.getSelectedFilter(state.filters)
 
 export const selectors = {
   getTodos,
+  isFetchingTodos,
+  isFetchErrorTodos,
   getSelectedFilter
 }
